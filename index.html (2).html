@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FM Onboarding Incentive Board — LIVE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans','Segoe UI',system-ui,sans-serif;background:#F8FAFC;min-height:100vh}
+::-webkit-scrollbar{display:none}
+.header{background:linear-gradient(135deg,#0F172A 0%,#1E293B 100%);padding:20px 16px 16px;border-radius:0 0 20px 20px;position:sticky;top:0;z-index:10}
+.header-sub{font-size:10px;font-weight:700;letter-spacing:3px;color:#10B981;text-transform:uppercase;text-align:center;margin-bottom:2px}
+.header-title{font-size:19px;font-weight:800;color:#FFF;text-align:center;letter-spacing:-0.5px;margin-bottom:4px}
+.header-live{text-align:center;margin-bottom:12px}
+.live-dot{display:inline-block;width:7px;height:7px;background:#22C55E;border-radius:50%;margin-right:5px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.live-text{font-size:10px;color:#94A3B8;letter-spacing:1px}
+.search-wrap{position:relative;margin-bottom:12px}
+.search-input{width:100%;padding:10px 14px 10px 36px;border:2px solid #334155;border-radius:12px;background:#1E293B;color:#FFF;font-size:14px;font-family:inherit;font-weight:600;outline:none;transition:border-color .2s}
+.search-input:focus{border-color:#10B981}
+.search-input::placeholder{color:#64748B;font-weight:400}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#64748B;font-size:14px}
+.search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#64748B;font-size:18px;cursor:pointer;display:none}
+.search-result-info{text-align:center;font-size:11px;color:#94A3B8;margin-bottom:8px}
+.city-pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.city-pill{padding:6px 14px;border:none;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s;font-family:inherit}
+.city-pill.inactive{background:#475569;color:#CBD5E1}
+.content{padding:16px 12px 24px;max-width:920px;margin:0 auto}
+.structure-card{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:14px;padding:16px;margin-bottom:16px;color:#FFF}
+.structure-title{font-size:13px;font-weight:800;color:#10B981;margin-bottom:10px;letter-spacing:0.5px}
+.slab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;font-size:11px}
+.slab-header{background:#334155;padding:6px 8px;font-weight:700;color:#94A3B8;text-align:center}
+.slab-header:first-child{border-radius:8px 0 0 0}
+.slab-header:last-child{border-radius:0 8px 0 0}
+.slab-row{padding:5px 8px;text-align:center;border-bottom:1px solid #334155}
+.slab-row.onb{color:#CBD5E1}
+.slab-row.att{color:#CBD5E1}
+.slab-row.amt{color:#FCD34D;font-weight:800}
+.slab-row.green{color:#10B981}
+.slab-row.red{color:#F87171}
+.slab-note{font-size:10px;color:#64748B;margin-top:8px;text-align:center;font-style:italic}
+.stats-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.stat-card{background:#FFF;border-radius:12px;padding:10px;text-align:center;border:1px solid #E2E8F0}
+.stat-value{font-size:20px;font-weight:800}
+.stat-label{font-size:10px;color:#64748B;margin-top:2px}
+.fm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.fm-grid{grid-template-columns:1fr}}
+.fm-card{background:#FFF;border-radius:12px;padding:12px;border:1px solid #E2E8F0;position:relative;overflow:hidden}
+.fm-card.highlight{box-shadow:0 0 0 2px #10B981,0 4px 12px rgba(16,185,129,0.3)}
+.fm-card.tier-10000{border-left:4px solid #10B981;background:linear-gradient(135deg,#F0FDF4,#FFF)}
+.fm-card.tier-7500{border-left:4px solid #22D3EE;background:linear-gradient(135deg,#F0FDFA,#FFF)}
+.fm-card.tier-5000{border-left:4px solid #A78BFA;background:linear-gradient(135deg,#F5F3FF,#FFF)}
+.fm-card.tier-3500{border-left:4px solid #FCD34D;background:linear-gradient(135deg,#FFFBEB,#FFF)}
+.fm-card.tier-2500{border-left:4px solid #F97316;background:linear-gradient(135deg,#FFF7ED,#FFF)}
+.fm-card.tier-2000{border-left:4px solid #94A3B8;background:#FFF}
+.fm-name{font-weight:800;font-size:13px;color:#0F172A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fm-city-tag{display:inline-block;font-size:8px;font-weight:700;background:#E2E8F0;color:#475569;padding:1px 5px;border-radius:4px;margin-left:4px;vertical-align:middle}
+.fm-center{font-size:10px;color:#64748B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px}
+.fm-metrics{display:flex;gap:8px;margin-bottom:6px}
+.fm-metric{flex:1;text-align:center;background:#F8FAFC;border-radius:6px;padding:4px}
+.fm-metric-val{font-size:12px;font-weight:800}
+.fm-metric-label{font-size:9px;color:#94A3B8}
+.fm-payout{display:flex;align-items:center;justify-content:space-between}
+.fm-payout-amt{font-size:16px;font-weight:800}
+.fm-payout-amt.green{color:#059669}
+.fm-payout-amt.yellow{color:#D97706}
+.fm-payout-amt.orange{color:#EA580C}
+.fm-payout-amt.grey{color:#64748B}
+.fm-slab-tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;letter-spacing:0.3px}
+.tag-10000{background:#D1FAE5;color:#065F46}
+.tag-7500{background:#CCFBF1;color:#134E4A}
+.tag-5000{background:#EDE9FE;color:#5B21B6}
+.tag-3500{background:#FEF3C7;color:#92400E}
+.tag-2500{background:#FFEDD5;color:#9A3412}
+.tag-2000{background:#F1F5F9;color:#475569}
+.prog-wrap{display:flex;gap:4px;align-items:center;margin-top:4px}
+.prog-label{font-size:9px;color:#94A3B8;width:28px;flex-shrink:0}
+.prog-bar{flex:1;height:4px;background:#E2E8F0;border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px}
+.prog-val{font-size:9px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
+.empty{text-align:center;padding:40px;color:#94A3B8;font-size:14px;grid-column:1/-1}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:#64748B}
+.spinner{width:40px;height:40px;border:4px solid #E2E8F0;border-top-color:#10B981;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.refresh-btn{position:fixed;bottom:20px;right:20px;width:48px;height:48px;border-radius:50%;background:#0F172A;border:none;color:#10B981;font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:20;display:flex;align-items:center;justify-content:center}
+.refresh-btn:active{transform:scale(0.85)}
+.status-bar{text-align:center;padding:6px;font-size:11px;border-radius:8px;margin-bottom:12px}
+.sort-wrap{display:flex;gap:6px;margin-bottom:12px;justify-content:center}
+.sort-btn{padding:5px 12px;border:1px solid #E2E8F0;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:#FFF;color:#64748B;transition:all .2s}
+.sort-btn.active{background:#0F172A;color:#10B981;border-color:#0F172A}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading"><div class="spinner"></div><div style="font-weight:700;font-size:14px;margin-bottom:4px">Loading Incentive Data...</div><div style="font-size:12px">Fetching from Google Sheets</div><div id="loadProgress" style="font-size:11px;color:#94A3B8;margin-top:8px"></div></div></div>
+<button class="refresh-btn" id="refreshBtn" onclick="loadAll()" title="Refresh data">↻</button>
+<script>
+var SHEET_ID='1tMz4Kv3dCyqYIJStnBNoTfqUMKRTdx-Mls6epJe8-Is';
+var BASE='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq';
+var SHEETS=[
+  {name:'BLR/CHE FM',gid:0},
+  {name:'NCR FM',gid:983115334},
+  {name:'HYD FM',gid:1641164142},
+  {name:'MUM FM',gid:934128490},
+  {name:'PUN FM',gid:2045318727},
+  {name:'BLR/CHE FOCO FM',gid:29095493}
+];
+var CC={"BLR/CHE FM":"#0D9488","NCR FM":"#DC2626","HYD FM":"#D97706","MUM FM":"#DB2777","PUN FM":"#2563EB","BLR/CHE FOCO FM":"#7C3AED"};
+var DATA={},sel='',lastUpdate='',loadStatus='',cbCount=0,sortBy='payout',searchTerm='';
+
+function fetchGViz(gid){return new Promise(function(resolve,reject){var cb='cb_'+cbCount++;var timer=setTimeout(function(){cleanup();reject(new Error('Timeout'))},20000);var script=document.createElement('script');function cleanup(){clearTimeout(timer);delete window[cb];if(script.parentNode)script.parentNode.removeChild(script)}window[cb]=function(resp){cleanup();if(resp&&resp.status==='ok'&&resp.table)resolve(resp.table);else reject(new Error(resp?(resp.errors&&resp.errors[0]?resp.errors[0].message:'Bad response'):'Empty'))};script.src=BASE+'?gid='+gid+'&tqx=responseHandler:'+cb;script.onerror=function(){cleanup();reject(new Error('Network error'))};document.head.appendChild(script)})}
+
+function findCol(headers,term){for(var i=0;i<headers.length;i++){if(headers[i]===term)return i}for(var i=0;i<headers.length;i++){if(headers[i].indexOf(term)!==-1||term.indexOf(headers[i])!==-1)return i}return -1}
+
+function processTable(table){
+  if(!table||!table.cols||!table.rows)return[];
+  var headers=table.cols.map(function(c){return(c.label||c.id||'').trim().toLowerCase()});
+  var iName=findCol(headers,'fm_name');
+  var iCenter=findCol(headers,'center_name');if(iCenter===-1)iCenter=findCol(headers,'center name');
+  var iGroup=findCol(headers,'group');
+  var iOnb=findCol(headers,'onboarding');
+  var iAtt=findCol(headers,'attended');if(iAtt===-1)iAtt=findCol(headers,'attend');
+  var iInc=findCol(headers,'onboarding incentive');if(iInc===-1)iInc=findCol(headers,'incentive');
+  if(iName===-1)return[];
+  var rows=[];
+  table.rows.forEach(function(row){
+    var c=row.c||[];
+    var v=function(i){return(i>=0&&c[i]&&c[i].v!=null)?c[i].v:null};
+    var name=v(iName);if(!name||String(name).trim()===''||String(name).trim()==='-')return;
+    var onbRaw=parseFloat(v(iOnb))||0;
+    var attRaw=parseFloat(v(iAtt))||0;
+    var onb=onbRaw>0&&onbRaw<=1?Math.round(onbRaw*10000)/100:Math.round(onbRaw*100)/100;
+    var att=attRaw>0&&attRaw<=1?Math.round(attRaw*10000)/100:Math.round(attRaw*100)/100;
+    var inc=parseFloat(v(iInc))||0;
+    var center=String(v(iCenter)||'').trim().substring(0,35);
+    var group=String(v(iGroup)||'').trim();
+    rows.push({n:String(name).trim(),c:center,g:group,onb:onb,att:att,inc:Math.round(inc)});
+  });
+  return rows;
+}
+
+async function loadAll(){
+  var btn=document.getElementById('refreshBtn');
+  btn.style.animation='spin .8s linear infinite';
+  var ok=0,fail=0;
+  var prog=document.getElementById('loadProgress');
+  for(var i=0;i<SHEETS.length;i++){
+    var s=SHEETS[i];
+    if(prog)prog.textContent='Loading '+s.name+'... ('+(i+1)+'/'+SHEETS.length+')';
+    try{var table=await fetchGViz(s.gid);var result=processTable(table);if(result.length>0){DATA[s.name]=result;ok++}else fail++}
+    catch(e){console.error('Failed '+s.name+':',e.message);fail++}
+  }
+  loadStatus=ok>0?(fail>0?'partial':'ok'):'error';
+  lastUpdate=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  btn.style.animation='';
+  render();
+}
+
+function fmt(v){return'\u20B9'+v.toLocaleString('en-IN')}
+function tc(s){return s.toLowerCase().replace(/\b\w/g,function(c){return c.toUpperCase()})}
+function getSlabTag(inc){
+  if(inc>=10000)return{cls:'tag-10000',text:'>80% Onb',amtCls:'green'};
+  if(inc>=7500)return{cls:'tag-7500',text:'70-80% Onb',amtCls:'green'};
+  if(inc>=5000)return{cls:'tag-5000',text:'60-70% Onb',amtCls:'green'};
+  if(inc>=3500)return{cls:'tag-3500',text:'50-60% Onb',amtCls:'yellow'};
+  if(inc>=2500)return{cls:'tag-2500',text:'Att<65%',amtCls:'orange'};
+  return{cls:'tag-2000',text:'<50% Onb',amtCls:'grey'};
+}
+
+function onSearch(val){
+  searchTerm=val.trim().toLowerCase();
+  render();
+}
+function clearSearch(){
+  searchTerm='';
+  render();
+}
+
+function buildFMCard(f,showCity,cityName){
+  var tag=getSlabTag(f.inc);
+  var tierCls='tier-2000';
+  if(f.inc>=10000)tierCls='tier-10000';
+  else if(f.inc>=7500)tierCls='tier-7500';
+  else if(f.inc>=5000)tierCls='tier-5000';
+  else if(f.inc>=3500)tierCls='tier-3500';
+  else if(f.inc>=2500)tierCls='tier-2500';
+  var onbColor=f.onb>=80?'#059669':f.onb>=60?'#A78BFA':f.onb>=50?'#D97706':'#94A3B8';
+  var attColor=f.att>=65?'#059669':'#EF4444';
+  var hl=searchTerm&&f.n.toLowerCase().indexOf(searchTerm)!==-1?' highlight':'';
+  var cityTag=showCity?'<span class="fm-city-tag">'+cityName+'</span>':'';
+
+  var h='<div class="fm-card '+tierCls+hl+'">';
+  h+='<div class="fm-name">'+tc(f.n)+cityTag+'</div>';
+  h+='<div class="fm-center">'+f.c+(f.g?' \u00B7 '+f.g:'')+'</div>';
+  h+='<div class="fm-metrics"><div class="fm-metric"><div class="fm-metric-val" style="color:'+onbColor+'">'+f.onb+'%</div><div class="fm-metric-label">Onboarding</div></div><div class="fm-metric"><div class="fm-metric-val" style="color:'+attColor+'">'+f.att+'%</div><div class="fm-metric-label">Attendance</div></div></div>';
+  h+='<div class="prog-wrap"><div class="prog-label">Onb</div><div class="prog-bar"><div class="prog-fill" style="width:'+Math.min(f.onb,100)+'%;background:'+onbColor+'"></div></div><div class="prog-val" style="color:'+onbColor+'">'+f.onb+'%</div></div>';
+  h+='<div class="prog-wrap"><div class="prog-label">Att</div><div class="prog-bar"><div class="prog-fill" style="width:'+Math.min(f.att,100)+'%;background:'+attColor+'"></div></div><div class="prog-val" style="color:'+attColor+'">'+f.att+'%</div></div>';
+  h+='<div class="fm-payout" style="margin-top:6px"><div class="fm-payout-amt '+tag.amtCls+'">'+fmt(f.inc)+'</div><span class="fm-slab-tag '+tag.cls+'">'+tag.text+'</span></div>';
+  h+='</div>';
+  return h;
+}
+
+function render(){
+  var ck=Object.keys(DATA);
+  if(!ck.includes(sel))sel=ck[0]||'';
+  var co=CC[sel]||'#6366F1';
+
+  // If searching, show results across all cities
+  var isSearching=searchTerm.length>=2;
+  var displayFMs=[];
+  var searchCity='';
+
+  if(isSearching){
+    ck.forEach(function(city){
+      (DATA[city]||[]).forEach(function(f){
+        if(f.n.toLowerCase().indexOf(searchTerm)!==-1){
+          displayFMs.push({fm:f,city:city});
+        }
+      });
+    });
+  } else {
+    (DATA[sel]||[]).forEach(function(f){
+      displayFMs.push({fm:f,city:sel});
+    });
+  }
+
+  // Sort
+  if(sortBy==='payout')displayFMs.sort(function(a,b){return b.fm.inc-a.fm.inc||b.fm.onb-a.fm.onb});
+  else if(sortBy==='onb')displayFMs.sort(function(a,b){return b.fm.onb-a.fm.onb});
+  else if(sortBy==='att')displayFMs.sort(function(a,b){return b.fm.att-a.fm.att});
+
+  var totalFMs=displayFMs.length;
+  var totalPayout=displayFMs.reduce(function(s,x){return s+x.fm.inc},0);
+  var avgOnb=totalFMs?Math.round(displayFMs.reduce(function(s,x){return s+x.fm.onb},0)/totalFMs*10)/10:0;
+
+  var st='';
+  if(loadStatus==='ok')st='<div class="status-bar" style="background:#F0FDF4;color:#166534">\u2705 Live at '+lastUpdate+'</div>';
+  else if(loadStatus==='partial')st='<div class="status-bar" style="background:#FFFBEB;color:#92400E">\u26A0\uFE0F Partial load at '+lastUpdate+'</div>';
+  else if(loadStatus==='error')st='<div class="status-bar" style="background:#FEF2F2;color:#991B1B">\u274C Failed to load. Tap \u21BB</div>';
+
+  var h='<div class="header"><div class="header-sub">April 2026</div><div class="header-title">\uD83D\uDCB0 FM Onboarding Incentive Board</div><div class="header-live"><span class="live-dot"></span><span class="live-text">LIVE FROM GOOGLE SHEETS</span></div>';
+
+  // Search bar
+  h+='<div class="search-wrap"><span class="search-icon">\uD83D\uDD0D</span><input class="search-input" type="text" placeholder="Search FM by name..." value="'+searchTerm.replace(/"/g,'&quot;')+'" oninput="onSearch(this.value)"><button class="search-clear" style="display:'+(searchTerm?'block':'none')+'" onclick="clearSearch()">\u2715</button></div>';
+
+  // City pills (dimmed if searching)
+  if(!isSearching){
+    h+='<div class="city-pills">';
+    ck.forEach(function(c){var active=sel===c;var bg=active?(CC[c]||'#6366F1'):'#475569';var clr=active?'#FFF':'#CBD5E1';h+='<button class="city-pill '+(active?'':'inactive')+'" style="background:'+bg+';color:'+clr+'" onclick="setCity(this.dataset.city)" data-city="'+c.replace(/"/g,'&quot;')+'">'+c+'</button>'});
+    h+='</div>';
+  }
+
+  h+='</div><div class="content">'+st;
+
+  // Search results info
+  if(isSearching){
+    h+='<div class="search-result-info">\uD83D\uDD0D Found <b>'+totalFMs+'</b> result'+(totalFMs!==1?'s':'')+' for "'+searchTerm+'" across all cities</div>';
+  }
+
+  // Contest structure
+  h+='<div class="structure-card"><div class="structure-title">\uD83D\uDCCB CONTEST STRUCTURE — Apr\'26</div><div class="slab-grid"><div class="slab-header">Onboarding %</div><div class="slab-header">Attend %</div><div class="slab-header">Payout</div>';
+  h+='<div class="slab-row onb">&lt;50%</div><div class="slab-row att">Any</div><div class="slab-row amt">\u20B92,000</div>';
+  h+='<div class="slab-row green">50-60%</div><div class="slab-row green">\u226565%</div><div class="slab-row amt">\u20B93,500</div>';
+  h+='<div class="slab-row green">60-70%</div><div class="slab-row green">\u226565%</div><div class="slab-row amt">\u20B95,000</div>';
+  h+='<div class="slab-row green">70-80%</div><div class="slab-row green">\u226565%</div><div class="slab-row amt">\u20B97,500</div>';
+  h+='<div class="slab-row green">&gt;80%</div><div class="slab-row green">\u226565%</div><div class="slab-row amt">\u20B910,000</div>';
+  h+='<div class="slab-row red">&gt;50%</div><div class="slab-row red">&lt;65%</div><div class="slab-row amt" style="color:#F97316">\u20B92,500</div>';
+  h+='</div><div class="slab-note">\u26A0\uFE0F Payout only if Onb &gt;50% for old FM structure. Attend \u226565% required for higher slabs.</div></div>';
+
+  // Stats
+  h+='<div class="stats-bar"><div class="stat-card"><div class="stat-value" style="color:'+co+'">'+totalFMs+'</div><div class="stat-label">'+(isSearching?'Results':'Total FMs')+'</div></div><div class="stat-card"><div class="stat-value" style="color:#059669">'+fmt(totalPayout)+'</div><div class="stat-label">Total Payout</div></div><div class="stat-card"><div class="stat-value" style="color:#D97706">'+avgOnb+'%</div><div class="stat-label">Avg Onboarding</div></div></div>';
+
+  // Sort
+  h+='<div class="sort-wrap"><button class="sort-btn '+(sortBy==='payout'?'active':'')+'" onclick="setSort(\'payout\')">Sort: Payout</button><button class="sort-btn '+(sortBy==='onb'?'active':'')+'" onclick="setSort(\'onb\')">Sort: Onb%</button><button class="sort-btn '+(sortBy==='att'?'active':'')+'" onclick="setSort(\'att\')">Sort: Attend%</button></div>';
+
+  // FM cards
+  h+='<div class="fm-grid">';
+  if(displayFMs.length===0)h+='<div class="empty">'+(isSearching?'No FMs found matching "'+searchTerm+'"':'No data available.')+'</div>';
+  displayFMs.forEach(function(x){
+    h+=buildFMCard(x.fm,isSearching,x.city);
+  });
+  h+='</div></div>';
+  document.getElementById('app').innerHTML=h;
+
+  // Restore focus to search input if searching
+  if(searchTerm){
+    var inp=document.querySelector('.search-input');
+    if(inp){inp.focus();inp.setSelectionRange(searchTerm.length,searchTerm.length)}
+  }
+}
+
+function setCity(c){sel=c;searchTerm='';render()}
+function setSort(s){sortBy=s;render()}
+loadAll();
+</script>
+</body>
+</html>
